@@ -124,5 +124,19 @@ namespace WindowsFormsApplication1
             
         }
 
+        public void pot()
+        {
+            double c11;
+            double c12;
+            double c22;
+            double d1;
+            double d2;
+            foreach (double x in X)
+            {
+
+            }
+
+        }
+
     }
 }
