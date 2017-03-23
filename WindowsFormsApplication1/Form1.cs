@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Expr = MathNet.Symbolics.Expression;
+using MathNet.Symbolics;
 
 namespace WindowsFormsApplication1
 {
@@ -28,7 +30,6 @@ namespace WindowsFormsApplication1
         {
             X.Clear();
             Y.Clear();
-
             if (x1.Text != "" || y1.Text != "")
             {
                 X.Add(double.Parse(x1.Text));
@@ -48,6 +49,11 @@ namespace WindowsFormsApplication1
             {
                 X.Add(double.Parse(x4.Text));
                 Y.Add(double.Parse(y4.Text));
+            }
+            if (x5.Text != "" || y5.Text != "")
+            {
+                X.Add(double.Parse(x5.Text));
+                Y.Add(double.Parse(y5.Text));
             }
 
             if (radioButton1.Checked)
@@ -71,6 +77,10 @@ namespace WindowsFormsApplication1
             {
                 Linear();
             }
+            else if(tendensline == "Exponential")
+            {
+                Exponential();
+            }
 
             chart1.Series.Clear();
             chart1.Series.Add("Series");
@@ -84,6 +94,7 @@ namespace WindowsFormsApplication1
             }
 
             chart1.DataManipulator.FinancialFormula(FinancialFormula.Forecasting, tendensline + ", 1, false, false", chart1.Series[0], chart1.Series["Tendenslinje"]);
+            
         }
         
         public void Linear()
@@ -120,8 +131,54 @@ namespace WindowsFormsApplication1
             }
             
             float r2 = (float) (ssr / yy);
-            label3.Text = "y = " + (float) intercept + "+" + (float) slope + "x; R^2=" + r2;
+            label3.Text = "y = " + (float) intercept + " + " + (float) slope + " * x; R^2=" + r2;
             
+        }
+
+        public void Exponential()
+        {
+            double c11 = 0.0, c12 = 0.0, c22 = 0.0, d1 = 0.0, d2 = 0.0;
+            for(int i = 0; i <X.Count; i++)
+            {
+                c11  += Math.Pow(Math.Pow(X[i], 2), 2);
+                c12  += Math.Pow(X[i], 2) * X[i];
+                c22  += Math.Pow(X[i], 2);
+                d1   += Math.Pow(X[i], 2) * Y[i];
+                d2   += X[i] * Y[i];
+            }
+            
+            var x = Expr.Symbol("a1");
+            var y = Expr.Symbol("a2");
+            
+            Expr aleft = Infix.ParseOrThrow(d1.ToString());
+            Expr aright = Infix.ParseOrThrow(c11 + "*a1+" + c12 + "*a2");
+            Expr bleft = Infix.ParseOrThrow(d2.ToString());
+            Expr bright = Infix.ParseOrThrow(c12+"*a1+" + c22 + "*a2");
+            
+            Expr ax = SolveSimpleRoot(x, aleft - aright);
+            Expr bx = SolveSimpleRoot(x, bleft - bright);
+
+            Expr cy = SolveSimpleRoot(y, ax - bx);
+
+            Expr cx = Algebraic.Expand(Structure.Substitute(y, cy, ax));
+
+            label3.Text = "y =  " + Infix.Print(cx) + "^x * " + Infix.Print(cy);
+
+        }
+
+        public static Expr SolveSimpleRoot(Expr variable, Expr expr)
+        {
+            // try to bring expression into polynomial form
+            Expr simple = Algebraic.Expand(Rational.Numerator(Rational.Simplify(variable, expr)));
+
+            // extract coefficients, solve known forms of order up to 1
+            Expr[] coeff = Polynomial.Coefficients(variable, simple);
+            switch (coeff.Length)
+            {
+                case 1: return Expr.Zero.Equals(coeff[0]) ? variable : Expr.Undefined;
+                case 2: return Rational.Simplify(variable, Algebraic.Expand(-coeff[0] / coeff[1]));
+                default: return Expr.Undefined;
+            }
         }
 
         public void pot()
