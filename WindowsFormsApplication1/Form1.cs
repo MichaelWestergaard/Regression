@@ -8,8 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using Expr = MathNet.Symbolics.Expression;
-using MathNet.Symbolics;
 
 namespace WindowsFormsApplication1
 {
@@ -129,9 +127,9 @@ namespace WindowsFormsApplication1
                 rss += (fit - X[i]) * (fit - X[i]);
                 ssr += (fit - y) * (fit - y);
             }
-            
-            float r2 = (float) (ssr / yy);
-            label3.Text = "y = " + (float) intercept + " + " + (float) slope + " * x; R^2=" + r2;
+
+            double r = r2(slope, intercept);
+            label3.Text = "y = " + (float) intercept + " + " + (float) slope + " * x; R^2=" + r;
             
         }
 
@@ -151,6 +149,39 @@ namespace WindowsFormsApplication1
             {
 
             }
+
+        }
+
+        public double r2(double a, double b)
+        {
+            double upperval = 0;
+            double lowerval = 0;
+            double aveB = 0;
+            double aveM = 0;
+
+            foreach (double x in X)
+            {
+                aveB = aveB + (a * x + b);
+          
+            }
+            foreach (double y in Y)
+            {
+                aveM = aveM + y;
+            }
+            aveB = aveB / X.Count;
+            aveM = aveM / Y.Count;
+
+            foreach (double x in X)
+            {
+                upperval = upperval + Math.Pow(((a * x + b) - aveB), 2);
+            }
+            foreach (double y in Y)
+            {
+                lowerval = lowerval + Math.Pow(((y) - aveM), 2);
+            }
+
+            double r2 = Math.Pow(Math.Pow(upperval / lowerval, 0.5),2);
+            return r2;
 
         }
 
