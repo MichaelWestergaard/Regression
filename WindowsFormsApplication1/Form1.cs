@@ -137,48 +137,7 @@ namespace WindowsFormsApplication1
 
         public void Exponential()
         {
-            double c11 = 0.0, c12 = 0.0, c22 = 0.0, d1 = 0.0, d2 = 0.0;
-            for(int i = 0; i <X.Count; i++)
-            {
-                c11  += Math.Pow(Math.Pow(X[i], 2), 2);
-                c12  += Math.Pow(X[i], 2) * X[i];
-                c22  += Math.Pow(X[i], 2);
-                d1   += Math.Pow(X[i], 2) * Y[i];
-                d2   += X[i] * Y[i];
-            }
-            
-            var x = Expr.Symbol("a1");
-            var y = Expr.Symbol("a2");
-            
-            Expr aleft = Infix.ParseOrThrow(d1.ToString());
-            Expr aright = Infix.ParseOrThrow(c11 + "*a1+" + c12 + "*a2");
-            Expr bleft = Infix.ParseOrThrow(d2.ToString());
-            Expr bright = Infix.ParseOrThrow(c12+"*a1+" + c22 + "*a2");
-            
-            Expr ax = SolveSimpleRoot(x, aleft - aright);
-            Expr bx = SolveSimpleRoot(x, bleft - bright);
 
-            Expr cy = SolveSimpleRoot(y, ax - bx);
-
-            Expr cx = Algebraic.Expand(Structure.Substitute(y, cy, ax));
-
-            label3.Text = "y =  " + Infix.Print(cx) + "^x * " + Infix.Print(cy);
-
-        }
-
-        public static Expr SolveSimpleRoot(Expr variable, Expr expr)
-        {
-            // try to bring expression into polynomial form
-            Expr simple = Algebraic.Expand(Rational.Numerator(Rational.Simplify(variable, expr)));
-
-            // extract coefficients, solve known forms of order up to 1
-            Expr[] coeff = Polynomial.Coefficients(variable, simple);
-            switch (coeff.Length)
-            {
-                case 1: return Expr.Zero.Equals(coeff[0]) ? variable : Expr.Undefined;
-                case 2: return Rational.Simplify(variable, Algebraic.Expand(-coeff[0] / coeff[1]));
-                default: return Expr.Undefined;
-            }
         }
 
     }
