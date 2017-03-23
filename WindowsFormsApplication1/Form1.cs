@@ -131,8 +131,10 @@ namespace WindowsFormsApplication1
             }
 
             double r = r2(slope, intercept);
-            label3.Text = "y = " + (float) intercept + " + " + (float) slope + " * x; R^2=" +(float) r;
-            
+            label3.Text = "y = " + (float)intercept + " + " + (float)slope + " * x";
+            lblR2.Text = "R^2 = " +(float) r;
+
+
         }
 
         public void Exponential()
@@ -197,8 +199,8 @@ namespace WindowsFormsApplication1
             Console.WriteLine("a2= " + a2);
             double r = r2(a1, a2);
 
-            label3.Text = "f(x)=" + (float)a1 +"x^2"+ " + " +(float) a2 + "x" + "  r^2= " + (float) r ;
-
+            label3.Text = "f(x)=" + (float)a1 +"x^2"+ " + " +(float) a2 + "x";
+            lblR2.Text = "R^2 = " + (float)r;
 
         }
 
