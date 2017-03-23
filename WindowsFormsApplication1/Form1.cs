@@ -15,7 +15,6 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-        double sumX = 0.0, sumY = 0.0, sumX2 = 0.0;
         List<double> X = new List<double>();
         List<double> Y = new List<double>();
 
@@ -100,7 +99,8 @@ namespace WindowsFormsApplication1
         
         public void Linear()
         {
-            for(int i = 0; i < X.Count; i++)
+            double sumX = 0.0, sumY = 0.0, sumX2 = 0.0;
+            for (int i = 0; i < X.Count; i++)
             {
                 sumX += X[i];
                 sumY += Y[i];
@@ -138,7 +138,19 @@ namespace WindowsFormsApplication1
 
         public void Exponential()
         {
+            double c11 = 0.0, c12 = 0.0, c22 = 0.0, d1 = 0.0, d2 = 0.0;
 
+            //f1(x)=x
+            //f2(x)=1
+
+            for(int i = 0; i < X.Count; i++)
+            {
+                c11  += Math.Pow(X[i],2);
+                c12  += X[i] * 1;
+                c22  += Math.Pow(1, 2);
+                d1   += Y[i] * X[i];
+                d2   += Y[i] * 1;
+            }
         }
 
         public void pot()
