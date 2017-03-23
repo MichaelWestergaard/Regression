@@ -192,10 +192,10 @@
             this.radioButton4.AutoSize = true;
             this.radioButton4.Location = new System.Drawing.Point(115, 194);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(58, 17);
+            this.radioButton4.Size = new System.Drawing.Size(78, 17);
             this.radioButton4.TabIndex = 13;
             this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Potens";
+            this.radioButton4.Text = "Polynomisk";
             this.radioButton4.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -246,7 +246,7 @@
             this.Controls.Add(this.x1);
             this.Controls.Add(this.chart1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Regressions Værktøj";
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

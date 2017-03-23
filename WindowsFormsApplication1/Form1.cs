@@ -68,7 +68,8 @@ namespace WindowsFormsApplication1
             }
             else if (radioButton4.Checked)
             {
-                tendensline = "Power";
+                tendensline = "Polynomial";
+                poly();
             }
 
             if(tendensline == "Linear")
@@ -130,7 +131,7 @@ namespace WindowsFormsApplication1
             }
 
             double r = r2(slope, intercept);
-            label3.Text = "y = " + (float) intercept + " + " + (float) slope + " * x; R^2=" + r;
+            label3.Text = "y = " + (float) intercept + " + " + (float) slope + " * x; R^2=" +(float) r;
             
         }
 
@@ -151,17 +152,53 @@ namespace WindowsFormsApplication1
             }
         }
 
-        public void pot()
+        public void poly()
         {
-            double c11;
-            double c12;
-            double c22;
-            double d1;
-            double d2;
+            double c11 = 0;
+            double c12 = 0;
+            double c22 = 0;
+            double d1  = 0;
+            double d2  = 0;
             foreach (double x in X)
             {
-
+                c11 = c11 + Math.Pow(Math.Pow(x, 2), 2);  
             }
+
+            foreach (double x in X)
+            {
+                c12 = c12 + (Math.Pow(x, 2) * x);
+            }
+
+            foreach (double x in X)
+            {
+                c22 = c22 + Math.Pow(x,2);
+            }
+
+            for (int i = 0; i < X.Count; i++)
+            {
+                d1 = d1 + Y[i] * Math.Pow(X[i], 2);
+            }
+
+            for (int i = 0; i < X.Count; i++)
+            {
+                d2 = d2 + Y[i] * X[i];
+            }
+            Console.WriteLine("c11= " + c11);
+            Console.WriteLine("c12= " + c12);
+            Console.WriteLine("c22= " + c22);
+            Console.WriteLine("d1= " + d1);
+            Console.WriteLine("d2= " + d2);
+            double c21 = c12;
+
+            double a2 = ((c11 * d2) - (c21 * d1)) /( (c11 * c22) - (c12 * c21));
+            double a1 = (d1-(c12*a2))/c11;
+
+            Console.WriteLine("a1= " + a1);
+            Console.WriteLine("a2= " + a2);
+            double r = r2(a1, a2);
+
+            label3.Text = "f(x)=" + (float)a1 +"x^2"+ " + " +(float) a2 + "x" + "  r^2= " + (float) r ;
+
 
         }
 
@@ -172,22 +209,41 @@ namespace WindowsFormsApplication1
             double aveB = 0;
             double aveM = 0;
 
-            foreach (double x in X)
-            {
-                aveB = aveB + (a * x + b);
-          
-            }
+            
             foreach (double y in Y)
             {
                 aveM = aveM + y;
             }
-            aveB = aveB / X.Count;
             aveM = aveM / Y.Count;
 
-            foreach (double x in X)
+            if (radioButton1.Checked)
             {
-                upperval = upperval + Math.Pow(((a * x + b) - aveB), 2);
+                foreach (double x in X)
+                {
+                    aveB = aveB + (a * x + b);
+
+                }
+                aveB = aveB / X.Count;
+                foreach (double x in X)
+                {
+                    upperval = upperval + Math.Pow(((a * x + b) - aveB), 2);
+                }
             }
+            else if (radioButton4.Checked)
+            {
+                foreach (double x in X)
+                {
+                    aveB = aveB + (a * Math.Pow(x,2) + b*x);
+
+                }
+                aveB = aveB / X.Count;
+                foreach (double x in X)
+                {
+                    upperval = upperval + Math.Pow(((a * Math.Pow(x, 2) + b * x) - aveB), 2);
+                }
+
+            }
+            
             foreach (double y in Y)
             {
                 lowerval = lowerval + Math.Pow(((y) - aveM), 2);
