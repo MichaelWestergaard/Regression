@@ -28,27 +28,29 @@ namespace WindowsFormsApplication1
             label3.Text = "";
             X.Clear();
             Y.Clear();
-            if (x1.Text != "" || y1.Text != "")
+
+            double number;
+            if (x1.Text != "" && y1.Text != "" && Double.TryParse(x1.Text, out number) == true && Double.TryParse(y1.Text, out number) == true)
             {
                 X.Add(double.Parse(x1.Text));
                 Y.Add(double.Parse(y1.Text));
             }
-            if (x2.Text != "" || y2.Text != "")
+            if (x2.Text != "" && y2.Text != "" && Double.TryParse(x2.Text, out number) == true && Double.TryParse(y2.Text, out number) == true)
             {
                 X.Add(double.Parse(x2.Text));
                 Y.Add(double.Parse(y2.Text));
             }
-            if (x3.Text != "" || y3.Text != "")
+            if (x3.Text != "" && y3.Text != "" && Double.TryParse(x3.Text, out number) == true && Double.TryParse(y3.Text, out number) == true)
             {
                 X.Add(double.Parse(x3.Text));
                 Y.Add(double.Parse(y3.Text));
             }
-            if (x4.Text != "" || y4.Text != "")
+            if (x4.Text != "" && y4.Text != "" && Double.TryParse(x4.Text, out number) == true && Double.TryParse(y4.Text, out number) == true)
             {
                 X.Add(double.Parse(x4.Text));
                 Y.Add(double.Parse(y4.Text));
             }
-            if (x5.Text != "" || y5.Text != "")
+            if (x5.Text != "" && y5.Text != "" && Double.TryParse(x5.Text, out number) == true && Double.TryParse(y5.Text, out number) == true)
             {
                 X.Add(double.Parse(x5.Text));
                 Y.Add(double.Parse(y5.Text));
