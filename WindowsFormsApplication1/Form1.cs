@@ -17,7 +17,7 @@ namespace WindowsFormsApplication1
         List<double> Y = new List<double>();
 
         public double intercept, slope;
-        public string tendensline;
+        public string trendline;
         public Form1()
         {
             InitializeComponent();
@@ -56,30 +56,24 @@ namespace WindowsFormsApplication1
 
             if (radioButton1.Checked)
             {
-                tendensline = "Linear";
+                trendline = "Linear";
+                Linear();
             }
             else if (radioButton2.Checked)
             {
-                tendensline = "Exponential";
+                trendline = "Exponential";
+                Exponential();
             }
             else if (radioButton3.Checked)
             {
-                tendensline = "Logarithmic";
+                trendline = "Logarithmic";
             }
             else if (radioButton4.Checked)
             {
-                tendensline = "Polynomial";
+                trendline = "Polynomial";
                 poly();
             }
-
-            if(tendensline == "Linear")
-            {
-                Linear();
-            }
-            else if(tendensline == "Exponential")
-            {
-                Exponential();
-            }
+            
 
             chart1.Series.Clear();
             chart1.Series.Add("Series");
@@ -92,7 +86,7 @@ namespace WindowsFormsApplication1
                 chart1.Series["Series"].Points.AddXY(X[i], Y[i]);
             }
 
-            chart1.DataManipulator.FinancialFormula(FinancialFormula.Forecasting, tendensline + ", 1, false, false", chart1.Series[0], chart1.Series["Tendenslinje"]);
+            chart1.DataManipulator.FinancialFormula(FinancialFormula.Forecasting, trendline + ", 1, false, false", chart1.Series[0], chart1.Series["Tendenslinje"]);
             
         }
         
