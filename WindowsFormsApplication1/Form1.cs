@@ -69,7 +69,7 @@ namespace WindowsFormsApplication1
            
             else if (radioButton4.Checked)
             {
-                trendline = "Polynomial";
+                trendline = "3";
                 poly();
             }
             
