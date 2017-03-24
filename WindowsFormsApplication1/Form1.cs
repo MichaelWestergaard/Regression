@@ -62,10 +62,6 @@ namespace WindowsFormsApplication1
             {
                 tendensline = "Exponential";
             }
-            else if (radioButton3.Checked)
-            {
-                tendensline = "Logarithmic";
-            }
             else if (radioButton4.Checked)
             {
                 tendensline = "Polynomial";
