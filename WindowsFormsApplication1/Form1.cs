@@ -76,14 +76,14 @@ namespace WindowsFormsApplication1
             
 
             chart1.Series.Clear();
-            chart1.Series.Add("Series");
+            chart1.Series.Add("Punktserie");
             chart1.Series.Add("Tendenslinje");
             chart1.Series["Tendenslinje"].ChartType = SeriesChartType.Line;
-            chart1.Series["Series"].ChartType = SeriesChartType.Point;
+            chart1.Series["Punktserie"].ChartType = SeriesChartType.Point;
             
             for (int i = 0; i < X.Count; i++)
             {
-                chart1.Series["Series"].Points.AddXY(X[i], Y[i]);
+                chart1.Series["Punktserie"].Points.AddXY(X[i], Y[i]);
             }
 
             chart1.DataManipulator.FinancialFormula(FinancialFormula.Forecasting, trendline + ", 1, false, false", chart1.Series[0], chart1.Series["Tendenslinje"]);
@@ -133,19 +133,6 @@ namespace WindowsFormsApplication1
 
         public void Exponential()
         {
-            double c11 = 0.0, c12 = 0.0, c22 = 0.0, d1 = 0.0, d2 = 0.0;
-
-            //f1(x)=x
-            //f2(x)=1
-
-            for(int i = 0; i < X.Count; i++)
-            {
-                c11  += Math.Pow(X[i],2);
-                c12  += X[i] * 1;
-                c22  += Math.Pow(1, 2);
-                d1   += Y[i] * X[i];
-                d2   += Y[i] * 1;
-            }
         }
 
         public void poly()
