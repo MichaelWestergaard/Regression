@@ -66,10 +66,7 @@ namespace WindowsFormsApplication1
                 trendline = "Exponential";
                 Exponential();
             }
-            else if (radioButton3.Checked)
-            {
-                trendline = "Logarithmic";
-            }
+           
             else if (radioButton4.Checked)
             {
                 trendline = "Polynomial";
