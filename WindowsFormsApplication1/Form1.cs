@@ -132,19 +132,66 @@ namespace WindowsFormsApplication1
 
         public void Exponential()
         {
-            double c11 = 0.0, c12 = 0.0, c22 = 0.0, d1 = 0.0, d2 = 0.0;
 
-            //f1(x)=x
-            //f2(x)=1
+            List<double> logY = new List<double>();
 
-            for(int i = 0; i < X.Count; i++)
+            foreach (double y in Y)
             {
-                c11  += Math.Pow(X[i],2);
-                c12  += X[i] * 1;
-                c22  += Math.Pow(1, 2);
-                d1   += Y[i] * X[i];
-                d2   += Y[i] * 1;
+                logY.Add(Math.Log10(y));
             }
+
+
+            double c11 = 0;
+            double c12 = 0;
+            double c22 = 0;
+            double d1 = 0;
+            double d2 = 0;
+
+            foreach (double x in X)
+            {
+                c11 = c11 + Math.Pow(x, 2);
+            }
+
+            foreach (double x in X)
+            {
+                c12 = c12 + (x * 1);
+            }
+
+            foreach (double x in X)
+            {
+                c22 = c22 + Math.Pow(1, 2);
+            }
+
+            for (int i = 0; i < X.Count; i++)
+            {
+                d1 = d1 + logY[i] * X[i];
+            }
+
+            for (int i = 0; i < X.Count; i++)
+            {
+                d2 = d2 + logY[i] * 1;
+            }
+            Console.WriteLine("c11= " + c11);
+            Console.WriteLine("c12= " + c12);
+            Console.WriteLine("c22= " + c22);
+            Console.WriteLine("d1= " + d1);
+            Console.WriteLine("d2= " + d2);
+            double c21 = c12;
+
+            double a2 = ((c11 * d2) - (c21 * d1)) / ((c11 * c22) - (c12 * c21));
+            double a1 = (d1 - (c12 * a2)) / c11;
+
+            a2 = Math.Pow(10, a2);
+            a1 = Math.Pow(10, a1);
+
+            Console.WriteLine("a1= " + a1);
+            Console.WriteLine("a2= " + a2);
+            double r = r2(a1, a2);
+
+            label3.Text = "f(x)=" + (float)a2 + "*" + (float)a1 + "^x";
+            lblR2.Text = "R^2 = " + (float)r;
+
+
         }
 
         public void poly()
