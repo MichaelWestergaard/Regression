@@ -259,6 +259,10 @@ namespace WindowsFormsApplication1
             }
 
             double r2 = Math.Pow(Math.Pow(upperval / lowerval, 0.5),2);
+            if (r2> 1)
+            {
+                r2 = 1; //Retter "afrundnings" fejl
+            }
             return r2;
 
         }
