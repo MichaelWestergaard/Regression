@@ -64,7 +64,7 @@ namespace WindowsFormsApplication1
             }
             else if (radioButton4.Checked)
             {
-                tendensline = "Polynomial";
+                tendensline = "3";
                 poly();
             }
 
