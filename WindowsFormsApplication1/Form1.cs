@@ -17,7 +17,7 @@ namespace WindowsFormsApplication1
         List<double> Y = new List<double>();
 
         public double intercept, slope;
-        public string tendensline;
+        public string trendline;
         public Form1()
         {
             InitializeComponent();
@@ -56,43 +56,37 @@ namespace WindowsFormsApplication1
 
             if (radioButton1.Checked)
             {
-                tendensline = "Linear";
+                trendline = "Linear";
+                Linear();
             }
             else if (radioButton2.Checked)
             {
-                tendensline = "Exponential";
+                trendline = "Exponential";
+                Exponential();
             }
             else if (radioButton3.Checked)
             {
-                tendensline = "Logarithmic";
+                trendline = "Logarithmic";
             }
             else if (radioButton4.Checked)
             {
-                tendensline = "Polynomial";
+                trendline = "Polynomial";
                 poly();
             }
-
-            if(tendensline == "Linear")
-            {
-                Linear();
-            }
-            else if(tendensline == "Exponential")
-            {
-                Exponential();
-            }
+            
 
             chart1.Series.Clear();
-            chart1.Series.Add("Series");
+            chart1.Series.Add("Punktserie");
             chart1.Series.Add("Tendenslinje");
             chart1.Series["Tendenslinje"].ChartType = SeriesChartType.Line;
-            chart1.Series["Series"].ChartType = SeriesChartType.Point;
+            chart1.Series["Punktserie"].ChartType = SeriesChartType.Point;
             
             for (int i = 0; i < X.Count; i++)
             {
-                chart1.Series["Series"].Points.AddXY(X[i], Y[i]);
+                chart1.Series["Punktserie"].Points.AddXY(X[i], Y[i]);
             }
 
-            chart1.DataManipulator.FinancialFormula(FinancialFormula.Forecasting, tendensline + ", 1, false, false", chart1.Series[0], chart1.Series["Tendenslinje"]);
+            chart1.DataManipulator.FinancialFormula(FinancialFormula.Forecasting, trendline + ", 1, false, false", chart1.Series[0], chart1.Series["Tendenslinje"]);
             
         }
         
@@ -139,66 +133,19 @@ namespace WindowsFormsApplication1
 
         public void Exponential()
         {
-           
-            List<double> logY = new List<double>();
+            double c11 = 0.0, c12 = 0.0, c22 = 0.0, d1 = 0.0, d2 = 0.0;
 
-            foreach (double y in Y)
+            //f1(x)=x
+            //f2(x)=1
+
+            for(int i = 0; i < X.Count; i++)
             {
-                logY.Add(Math.Log10(y));
+                c11  += Math.Pow(X[i],2);
+                c12  += X[i] * 1;
+                c22  += Math.Pow(1, 2);
+                d1   += Y[i] * X[i];
+                d2   += Y[i] * 1;
             }
-
-
-            double c11 = 0;
-            double c12 = 0;
-            double c22 = 0;
-            double d1 = 0;
-            double d2 = 0;
-
-            foreach (double x in X)
-            {
-                c11 = c11 + Math.Pow(x, 2);
-            }
-
-            foreach (double x in X)
-            {
-                c12 = c12 + (x * 1);
-            }
-
-            foreach (double x in X)
-            {
-                c22 = c22 + Math.Pow(1, 2);
-            }
-
-            for (int i = 0; i < X.Count; i++)
-            {
-                d1 = d1 + logY[i] * X[i];
-            }
-
-            for (int i = 0; i < X.Count; i++)
-            {
-                d2 = d2 + logY[i] * 1;
-            }
-            Console.WriteLine("c11= " + c11);
-            Console.WriteLine("c12= " + c12);
-            Console.WriteLine("c22= " + c22);
-            Console.WriteLine("d1= " + d1);
-            Console.WriteLine("d2= " + d2);
-            double c21 = c12;
-
-            double a2 = ((c11 * d2) - (c21 * d1)) / ((c11 * c22) - (c12 * c21));
-            double a1 = (d1 - (c12 * a2)) / c11;
-
-            a2 = Math.Pow(10, a2);
-            a1 = Math.Pow(10, a1);
-
-            Console.WriteLine("a1= " + a1);
-            Console.WriteLine("a2= " + a2);
-            double r = r2(a1, a2);
-
-            label3.Text = "f(x)=" + (float)a2 + "*" + (float)a1 + "^x";
-            lblR2.Text = "R^2 = " + (float)r;
-
-
         }
 
         public void poly()
