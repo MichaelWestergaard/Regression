@@ -113,16 +113,7 @@ namespace WindowsFormsApplication1
                         
             slope = xy / xx;
             intercept = y - slope * x;
-
-            double rss = 0.0;
-            double ssr = 0.0;
-            for (int i = 0; i < X.Count; i++)
-            {
-                double fit = slope * X[i] + intercept;
-                rss += (fit - X[i]) * (fit - X[i]);
-                ssr += (fit - y) * (fit - y);
-            }
-
+            
             double r = r2(slope, intercept);
             label3.Text = "y = " + (float)intercept + " + " + (float)slope + " * x";
             lblR2.Text = "R^2 = " +(float) r;
@@ -188,10 +179,9 @@ namespace WindowsFormsApplication1
             Console.WriteLine("a2= " + a2);
             double r = r2(a1, a2);
 
-            label3.Text = "f(x)=" + (float)a2 + "*" + (float)a1 + "^x";
-            lblR2.Text = "R^2 = " + (float)r;
-
-
+            label3.Text = "f(x)=" + (float) a2 + "*" + (float) a1 + "^x";
+            lblR2.Text = "R^2 = " + (float) r;
+            
         }
 
         public void poly()
