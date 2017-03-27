@@ -96,29 +96,32 @@ namespace WindowsFormsApplication1
             double sumX = 0.0, sumY = 0.0, sumX2 = 0.0;
             for (int i = 0; i < X.Count; i++)
             {
+                // Sum of X and Y coords                
                 sumX += X[i];
                 sumY += Y[i];
                 sumX2 += X[i] * X[i];
             }
 
-            double x = sumX / X.Count;
+            // Average X,Y-coord
+            double x = sumX / X.Count; 
             double y = sumY / X.Count;
 
             double xx = 0.0, yy = 0.0, xy = 0.0;
 
             for(int i = 0; i < X.Count; i++)
             {
-                xx += (X[i] - x) * (X[i] - x);
-                yy += (Y[i] - y) * (Y[i] - y);
+                // Used to find slope
+                xx += (X[i] - x) * (X[i] - x); 
                 xy += (X[i] - x) * (Y[i] - y);
             }
                         
             slope = xy / xx;
             intercept = y - slope * x;
             
-            double r = r2(slope, intercept);
-            label3.Text = "y = " + (float)intercept + " + " + (float)slope + " * x";
-            lblR2.Text = "R^2 = " +(float) r;
+            double r = r2(slope, intercept); // Find the R^2 value from slope and intercept
+
+            label3.Text = "y = " + (float)intercept + " + " + (float)slope + " * x"; // Show the function to the user
+            lblR2.Text = "R^2 = " +(float) r; // Show the R^2 value to the user
 
 
         }
