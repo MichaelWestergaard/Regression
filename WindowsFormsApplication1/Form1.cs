@@ -23,16 +23,17 @@ namespace WindowsFormsApplication1
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //Regression Beregning
         {
             label3.Text = "";
             X.Clear();
             Y.Clear();
 
             double number;
+            //Check if valid input, and save in X and Y lists if valid.
             if (x1.Text != "" && y1.Text != "" && Double.TryParse(x1.Text, out number) == true && Double.TryParse(y1.Text, out number) == true)
             {
-                X.Add(double.Parse(x1.Text));
+                X.Add(double.Parse(x1.Text)); //Parse input as double
                 Y.Add(double.Parse(y1.Text));
             }
             if (x2.Text != "" && y2.Text != "" && Double.TryParse(x2.Text, out number) == true && Double.TryParse(y2.Text, out number) == true)
@@ -55,10 +56,11 @@ namespace WindowsFormsApplication1
                 X.Add(double.Parse(x5.Text));
                 Y.Add(double.Parse(y5.Text));
             }
-
+            
+            //Check for type of regression to be used
             if (radioButton1.Checked)
             {
-                trendline = "Linear";
+                trendline = "Linear"; //Set Chart line to correct form.
                 Linear();
             }
             else if (radioButton2.Checked)
@@ -73,7 +75,7 @@ namespace WindowsFormsApplication1
                 poly();
             }
             
-
+            //Setting up chart
             chart1.Series.Clear();
             chart1.Series.Add("Punktserie");
             chart1.Series.Add("Tendenslinje");
@@ -89,7 +91,7 @@ namespace WindowsFormsApplication1
             
         }
         
-        public void Linear()
+        public void Linear() //Regression for linear function
         {
             double sumX = 0.0, sumY = 0.0, sumX2 = 0.0;
             for (int i = 0; i < X.Count; i++)
@@ -298,7 +300,7 @@ namespace WindowsFormsApplication1
             double r2 = Math.Pow(Math.Pow(upperval / lowerval, 0.5),2);
             if (r2> 1)
             {
-                r2 = 1; //Retter "afrundnings" fejl
+                r2 = r2- 0.05; //Retter "afrundnings" fejl
             }
             return r2;
 
