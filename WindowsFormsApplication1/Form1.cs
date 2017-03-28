@@ -91,7 +91,7 @@ namespace WindowsFormsApplication1
             
         }
         
-        public void Linear() //Regression for linear function
+        public void Linear() //Regression for linear function, f(x) = ax + b
         {
             double sumX = 0.0, sumY = 0.0, sumX2 = 0.0;
             for (int i = 0; i < X.Count; i++)
@@ -132,12 +132,12 @@ namespace WindowsFormsApplication1
 
         }
 
-        public void Exponential()
+        public void Exponential() //f(x) = b * a^x
         {
 
             List<double> logY = new List<double>();
 
-            foreach (double y in Y)
+            foreach (double y in Y) //Take the Log10 values of all Y input
             {
                 logY.Add(Math.Log10(y));
             }
@@ -151,58 +151,60 @@ namespace WindowsFormsApplication1
 
             foreach (double x in X)
             {
-                c11 = c11 + Math.Pow(x, 2);
+                c11 = c11 + Math.Pow(x, 2); //Calculate c11 value for use in formula (Se Sætning 2 Regression Forberedelses Materiale)
             }
 
             foreach (double x in X)
             {
-                c12 = c12 + (x * 1);
+                c12 = c12 + (x * 1); //Calculate c12 value for use in formula (Se Sætning 2 Regression Forberedelses Materiale)
             }
 
             foreach (double x in X)
             {
-                c22 = c22 + Math.Pow(1, 2);
+                c22 = c22 + Math.Pow(1, 2); //Calculate c22 value for use in formula (Se Sætning 2 Regression Forberedelses Materiale)
             }
 
             for (int i = 0; i < X.Count; i++)
             {
-                d1 = d1 + logY[i] * X[i];
+                d1 = d1 + logY[i] * X[i]; //Calculate d1 value for use in formula (Se Sætning 2 Regression Forberedelses Materiale)
             }
 
             for (int i = 0; i < X.Count; i++)
             {
-                d2 = d2 + logY[i] * 1;
+                d2 = d2 + logY[i] * 1; //Calculate d2 value for use in formula (Se Sætning 2 Regression Forberedelses Materiale)
             }
-            Console.WriteLine("c11= " + c11);
-            Console.WriteLine("c12= " + c12);
-            Console.WriteLine("c22= " + c22);
-            Console.WriteLine("d1= " + d1);
-            Console.WriteLine("d2= " + d2);
-            double c21 = c12;
+            //Console.WriteLine("c11= " + c11);  For debugging
+            //Console.WriteLine("c12= " + c12);
+            //Console.WriteLine("c22= " + c22);
+            //Console.WriteLine("d1= " + d1);
+            //Console.WriteLine("d2= " + d2);
+            double c21 = c12; //Set c21 to be equal to c12
 
-            double a2 = ((c11 * d2) - (c21 * d1)) / ((c11 * c22) - (c12 * c21));
-            double a1 = (d1 - (c12 * a2)) / c11;
+            double a2 = ((c11 * d2) - (c21 * d1)) / ((c11 * c22) - (c12 * c21)); //Calculate A2 via Sætning 2
+            double a1 = (d1 - (c12 * a2)) / c11; //Calculate A1 when we know A2
 
-            a2 = Math.Pow(10, a2);
-            a1 = Math.Pow(10, a1);
+            a2 = Math.Pow(10, a2); //calculate b, by doing reverse log10
+            a1 = Math.Pow(10, a1); //calculate a, by doing reverse log10
 
-            Console.WriteLine("a1= " + a1);
-            Console.WriteLine("a2= " + a2);
-            double r = r2(a1, a2);
+            //Console.WriteLine("a1= " + a1);
+            //Console.WriteLine("a2= " + a2);
+            double r = r2(a1, a2); //Calculate R^2 
 
-            label3.Text = "f(x)=" + (float)a2 + "*" + (float)a1 + "^x";
-            lblR2.Text = "R^2 = " + (float)r;
+            label3.Text = "f(x)=" + (float)a2 + "*" + (float)a1 + "^x"; //Set label 
+            lblR2.Text = "R^2 = " + (float)r; //Set label
 
 
         }
 
-        public void poly()
+        public void poly() //f(x) = ax^2 + bx
         {
             double c11 = 0;
             double c12 = 0;
             double c22 = 0;
             double d1  = 0;
             double d2  = 0;
+
+            //Using Sætning 2 again, this time without Log10 values
             foreach (double x in X)
             {
                 c11 = c11 + Math.Pow(Math.Pow(x, 2), 2);  
@@ -227,18 +229,18 @@ namespace WindowsFormsApplication1
             {
                 d2 = d2 + Y[i] * X[i];
             }
-            Console.WriteLine("c11= " + c11);
-            Console.WriteLine("c12= " + c12);
-            Console.WriteLine("c22= " + c22);
-            Console.WriteLine("d1= " + d1);
-            Console.WriteLine("d2= " + d2);
+            //Console.WriteLine("c11= " + c11); For debugging
+            //Console.WriteLine("c12= " + c12);
+            //Console.WriteLine("c22= " + c22);
+            //Console.WriteLine("d1= " + d1);
+            //Console.WriteLine("d2= " + d2);
             double c21 = c12;
 
             double a2 = ((c11 * d2) - (c21 * d1)) /( (c11 * c22) - (c12 * c21));
             double a1 = (d1-(c12*a2))/c11;
 
-            Console.WriteLine("a1= " + a1);
-            Console.WriteLine("a2= " + a2);
+            //Console.WriteLine("a1= " + a1);
+            //Console.WriteLine("a2= " + a2);
             double r = r2(a1, a2);
 
             label3.Text = "f(x)=" + (float)a1 +"x^2"+ " + " +(float) a2 + "x";
@@ -248,6 +250,7 @@ namespace WindowsFormsApplication1
 
         public double r2(double a, double b)
         {
+            //Calculating R2 using method from: https://mat1a-2012.wikispaces.com/Line%C3%A6r+regression+og+korrelationskoefficienten?responseToken=b4bf5760c9de52b3f4ce8a6ae1732a84 
             double upperval = 0;
             double lowerval = 0;
             double aveB = 0;
@@ -255,8 +258,9 @@ namespace WindowsFormsApplication1
 
             
             foreach (double y in Y)
+                //Calculate average of input Y values
             {
-                aveM = aveM + y;
+                aveM = aveM + y; 
             }
             aveM = aveM / Y.Count;
 
@@ -264,16 +268,16 @@ namespace WindowsFormsApplication1
             {
                 foreach (double x in X)
                 {
-                    aveB = aveB + (a * x + b);
+                    aveB = aveB + (a * x + b); //Calculate average of values from model
 
                 }
                 aveB = aveB / X.Count;
                 foreach (double x in X)
                 {
-                    upperval = upperval + Math.Pow(((a * x + b) - aveB), 2);
+                    upperval = upperval + Math.Pow(((a * x + b) - aveB), 2); //Calculate the values of the number above the line
                 }
             }
-            else if (radioButton2.Checked)
+            else if (radioButton2.Checked) //Is bugged
             {
                 foreach (double x in X)
                 {
@@ -287,31 +291,28 @@ namespace WindowsFormsApplication1
             }
 
 
-            else if (radioButton4.Checked)
+            else if (radioButton4.Checked) //Is bugged
             {
                 foreach (double x in X)
                 {
-                    aveB = aveB + (a * Math.Pow(x,2) + b*x);
+                    aveB = aveB + (a * Math.Pow(x,2) + (b*x));
 
                 }
                 aveB = aveB / X.Count;
                 foreach (double x in X)
                 {
-                    upperval = upperval + Math.Pow(((a * Math.Pow(x, 2) + b * x) - aveB), 2);
+                    upperval = upperval + Math.Pow(((a * Math.Pow(x, 2) + (b * x)) - aveB), 2);
                 }
 
             }
             
             foreach (double y in Y)
             {
-                lowerval = lowerval + Math.Pow(((y) - aveM), 2);
+                lowerval = lowerval + Math.Pow(((y) - aveM), 2); //Calculate values below line
             }
 
-            double r2 = Math.Pow(Math.Pow(upperval / lowerval, 0.5),2);
-            if (r2> 1)
-            {
-                r2 = r2- 0.05; //Retter "afrundnings" fejl
-            }
+            double r2 = Math.Pow(Math.Pow(upperval / lowerval, 0.5),2); //Squareroot and ^2
+           
             return r2;
 
         }
